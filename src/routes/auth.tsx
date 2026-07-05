@@ -70,10 +70,11 @@ function AuthPage() {
         // Session is active (auto-confirm). Initialize profile + role securely.
         const { error: setupErr } = await supabase.rpc("setup_new_user", {
           _full_name: form.fullName.trim(),
-          _university: form.university.trim() || null,
-          _faculty: form.faculty.trim() || null,
-          _study_year: form.studyYear.trim() || null,
+          _university: form.university.trim(),
+          _faculty: form.faculty.trim(),
+          _study_year: form.studyYear.trim(),
         });
+
         if (setupErr) console.error(setupErr);
         await refresh();
         toast.success("Compte créé avec succès. Bienvenue !");
