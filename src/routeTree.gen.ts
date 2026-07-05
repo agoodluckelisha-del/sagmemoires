@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThesisIdRouteImport } from './routes/thesis.$id'
+import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedMyThesesRouteImport } from './routes/_authenticated/my-theses'
 import { Route as AuthenticatedDepositRouteImport } from './routes/_authenticated/deposit'
@@ -49,6 +50,11 @@ const ThesisIdRoute = ThesisIdRouteImport.update({
   path: '/thesis/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/deposit': typeof AuthenticatedDepositRoute
   '/my-theses': typeof AuthenticatedMyThesesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/payments': typeof AuthenticatedPaymentsRoute
   '/thesis/$id': typeof ThesisIdRoute
 }
 export interface FileRoutesByTo {
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/deposit': typeof AuthenticatedDepositRoute
   '/my-theses': typeof AuthenticatedMyThesesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/payments': typeof AuthenticatedPaymentsRoute
   '/thesis/$id': typeof ThesisIdRoute
 }
 export interface FileRoutesById {
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/_authenticated/deposit': typeof AuthenticatedDepositRoute
   '/_authenticated/my-theses': typeof AuthenticatedMyThesesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/thesis/$id': typeof ThesisIdRoute
 }
 export interface FileRouteTypes {
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/deposit'
     | '/my-theses'
     | '/notifications'
+    | '/payments'
     | '/thesis/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/deposit'
     | '/my-theses'
     | '/notifications'
+    | '/payments'
     | '/thesis/$id'
   id:
     | '__root__'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/_authenticated/deposit'
     | '/_authenticated/my-theses'
     | '/_authenticated/notifications'
+    | '/_authenticated/payments'
     | '/thesis/$id'
   fileRoutesById: FileRoutesById
 }
@@ -196,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThesisIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/payments': {
+      id: '/_authenticated/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof AuthenticatedPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notifications': {
       id: '/_authenticated/notifications'
       path: '/notifications'
@@ -232,6 +251,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDepositRoute: typeof AuthenticatedDepositRoute
   AuthenticatedMyThesesRoute: typeof AuthenticatedMyThesesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -239,6 +259,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDepositRoute: AuthenticatedDepositRoute,
   AuthenticatedMyThesesRoute: AuthenticatedMyThesesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
