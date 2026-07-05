@@ -116,11 +116,12 @@ function AuthPage() {
     if (result.redirected) return;
     // Ensure account setup for OAuth users, then go to dashboard.
     await supabase.rpc("setup_new_user", {
-      _full_name: null,
-      _university: null,
-      _faculty: null,
-      _study_year: null,
+      _full_name: "",
+      _university: "",
+      _faculty: "",
+      _study_year: "",
     });
+
     await refresh();
     navigate({ to: "/dashboard", replace: true });
   };
