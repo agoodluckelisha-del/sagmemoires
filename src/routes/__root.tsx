@@ -97,6 +97,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "MémoiresAcadémiques — Gestion électronique des mémoires universitaires" },
+      { name: "twitter:title", content: "MémoiresAcadémiques — Gestion électronique des mémoires universitaires" },
+      { name: "description", content: "Plateforme sécurisée de dépôt, consultation, validation et partage de mémoires académiques pour étudiants, universités et chercheurs." },
+      { property: "og:description", content: "Plateforme sécurisée de dépôt, consultation, validation et partage de mémoires académiques pour étudiants, universités et chercheurs." },
+      { name: "twitter:description", content: "Plateforme sécurisée de dépôt, consultation, validation et partage de mémoires académiques pour étudiants, universités et chercheurs." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ed2a94ed-c107-48d3-8cc5-458c0c001195/id-preview-3e71dbf1--f9cb3747-31f7-4a4f-969a-f2ce498d86a4.lovable.app-1783285027036.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ed2a94ed-c107-48d3-8cc5-458c0c001195/id-preview-3e71dbf1--f9cb3747-31f7-4a4f-969a-f2ce498d86a4.lovable.app-1783285027036.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
