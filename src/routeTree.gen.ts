@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThesisIdRouteImport } from './routes/thesis.$id'
+import { Route as AuthenticatedDepositRouteImport } from './routes/_authenticated/deposit'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 
 const PricingRoute = PricingRouteImport.update({
@@ -46,6 +47,11 @@ const ThesisIdRoute = ThesisIdRouteImport.update({
   path: '/thesis/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDepositRoute = AuthenticatedDepositRouteImport.update({
+  id: '/deposit',
+  path: '/deposit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/browse': typeof BrowseRoute
   '/pricing': typeof PricingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deposit': typeof AuthenticatedDepositRoute
   '/thesis/$id': typeof ThesisIdRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/browse': typeof BrowseRoute
   '/pricing': typeof PricingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deposit': typeof AuthenticatedDepositRoute
   '/thesis/$id': typeof ThesisIdRoute
 }
 export interface FileRoutesById {
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/browse': typeof BrowseRoute
   '/pricing': typeof PricingRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/deposit': typeof AuthenticatedDepositRoute
   '/thesis/$id': typeof ThesisIdRoute
 }
 export interface FileRouteTypes {
@@ -86,9 +95,17 @@ export interface FileRouteTypes {
     | '/browse'
     | '/pricing'
     | '/dashboard'
+    | '/deposit'
     | '/thesis/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/browse' | '/pricing' | '/dashboard' | '/thesis/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/browse'
+    | '/pricing'
+    | '/dashboard'
+    | '/deposit'
+    | '/thesis/$id'
   id:
     | '__root__'
     | '/'
@@ -97,6 +114,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/pricing'
     | '/_authenticated/dashboard'
+    | '/_authenticated/deposit'
     | '/thesis/$id'
   fileRoutesById: FileRoutesById
 }
@@ -153,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThesisIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/deposit': {
+      id: '/_authenticated/deposit'
+      path: '/deposit'
+      fullPath: '/deposit'
+      preLoaderRoute: typeof AuthenticatedDepositRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -165,10 +190,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDepositRoute: typeof AuthenticatedDepositRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDepositRoute: AuthenticatedDepositRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
