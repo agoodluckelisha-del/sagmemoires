@@ -1,0 +1,21 @@
+{
+  // =====================================================================
+  // Configuration Cloudflare Workers + D1
+  // Placez ce fichier à la RACINE de votre projet Cloudflare autonome.
+  // Remplacez "database_id" par l'id renvoyé par la commande de création.
+  // =====================================================================
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "memoires-academiques",
+  "main": "src/server.ts",
+  "compatibility_date": "2025-07-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "d1_databases": [
+    {
+      "binding": "DB",                         // accessible via env.DB dans le Worker
+      "database_name": "memoires_db",
+      "database_id": "REMPLACER_PAR_L_ID_RENVOYE_PAR_WRANGLER",
+      "migrations_dir": "cloudflare-d1/migrations"
+    }
+  ]
+}
