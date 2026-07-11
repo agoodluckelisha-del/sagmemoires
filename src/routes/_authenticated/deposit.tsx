@@ -166,8 +166,8 @@ function DepositPage() {
             Votre compte est un compte visiteur. Vous pouvez consulter la bibliothèque de mémoires,
             mais pas en déposer.
           </p>
-          <Button asChild variant="hero" className="mt-6" onClick={() => navigate({ to: "/browse" })}>
-            <span>Explorer la bibliothèque</span>
+          <Button variant="hero" className="mt-6" onClick={() => navigate({ to: "/browse" })}>
+            Explorer la bibliothèque
           </Button>
         </Card>
       </DashboardLayout>
