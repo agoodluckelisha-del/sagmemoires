@@ -156,6 +156,24 @@ function DepositPage() {
     }
   };
 
+  if (isVisitor) {
+    return (
+      <DashboardLayout title="Déposer un mémoire">
+        <Card className="mx-auto max-w-md border-border/60 p-10 text-center">
+          <FileText className="mx-auto h-12 w-12 text-muted-foreground/50" />
+          <h2 className="mt-4 font-semibold">Réservé aux déposants</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Votre compte est un compte visiteur. Vous pouvez consulter la bibliothèque de mémoires,
+            mais pas en déposer.
+          </p>
+          <Button asChild variant="hero" className="mt-6" onClick={() => navigate({ to: "/browse" })}>
+            <span>Explorer la bibliothèque</span>
+          </Button>
+        </Card>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout title="Déposer un mémoire" description="Soumettez votre travail au format PDF">
       <div className="mx-auto max-w-3xl">
