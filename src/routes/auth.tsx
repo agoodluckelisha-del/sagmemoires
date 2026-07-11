@@ -124,16 +124,17 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    // Ensure account setup for OAuth users, then go to dashboard.
+    // Ensure account setup for OAuth users with the selected role, then route.
     await supabase.rpc("setup_new_user", {
       _full_name: "",
       _university: "",
       _faculty: "",
       _study_year: "",
+      _role: mode === "signup" ? role : "student",
     });
 
     await refresh();
-    navigate({ to: "/dashboard", replace: true });
+    navigate({ to: mode === "signup" && role === "visitor" ? "/browse" : "/dashboard", replace: true });
   };
 
   return (
