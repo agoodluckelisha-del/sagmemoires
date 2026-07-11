@@ -42,8 +42,9 @@ function AuthPage() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate({ to: "/dashboard", replace: true });
-  }, [isAuthenticated, navigate]);
+    if (!isAuthenticated || authLoading) return;
+    navigate({ to: landingFor(roles), replace: true });
+  }, [isAuthenticated, authLoading, roles, navigate]);
 
   const update = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
