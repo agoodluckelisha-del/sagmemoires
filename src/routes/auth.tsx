@@ -28,7 +28,7 @@ const credsSchema = z.object({
 function AuthPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
-  const { isAuthenticated, refresh } = useAuth();
+  const { isAuthenticated, refresh, roles, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">(search.mode ?? "login");
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<"student" | "visitor">("student");
