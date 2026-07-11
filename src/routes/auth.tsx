@@ -31,6 +31,7 @@ function AuthPage() {
   const { isAuthenticated, refresh } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">(search.mode ?? "login");
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<"student" | "visitor">("student");
   const [form, setForm] = useState({
     email: "",
     password: "",
