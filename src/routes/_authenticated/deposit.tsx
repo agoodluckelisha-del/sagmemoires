@@ -26,7 +26,7 @@ const schema = z.object({
 });
 
 function DepositPage() {
-  const { user, profile, isPremium } = useAuth();
+  const { user, profile, isPremium, isVisitor } = useAuth();
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
