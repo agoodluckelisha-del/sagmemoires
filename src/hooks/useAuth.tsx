@@ -124,6 +124,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     isAuthenticated: !!session?.user,
     isAdmin: roles.includes("admin"),
+    isDepositor: roles.includes("student") || roles.includes("admin"),
+    isVisitor:
+      roles.includes("visitor") && !roles.includes("student") && !roles.includes("admin"),
     isPremium: subscription?.plan === "premium" && subscription?.status === "active",
     refresh,
     signOut,
