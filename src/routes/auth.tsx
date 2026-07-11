@@ -25,6 +25,13 @@ const credsSchema = z.object({
   password: z.string().min(6, "6 caractères minimum").max(72),
 });
 
+/** Destination après connexion : les visiteurs vont vers la bibliothèque, les autres vers leur tableau de bord. */
+function landingFor(roles: string[]): "/browse" | "/dashboard" {
+  const isVisitorOnly =
+    roles.includes("visitor") && !roles.includes("student") && !roles.includes("admin");
+  return isVisitorOnly ? "/browse" : "/dashboard";
+}
+
 function AuthPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
