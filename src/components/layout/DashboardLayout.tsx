@@ -38,11 +38,13 @@ const baseItems: NavItem[] = [
 ];
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
-  const { profile, roles, isAdmin, isPremium, user, signOut } = useAuth();
+  const { profile, roles, isAdmin, isVisitor, isPremium, user, signOut } = useAuth();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  const items = [...baseItems];
+  const items = baseItems.filter(
+    (item) => !(isVisitor && (item.to === "/deposit" || item.to === "/my-theses")),
+  );
   if (isAdmin) {
     items.push({ to: "/admin", label: "Administration", icon: ShieldCheck });
   }

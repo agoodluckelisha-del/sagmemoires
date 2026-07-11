@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { GraduationCap, Loader2, Mail, Lock } from "lucide-react";
+import { GraduationCap, Loader2, Mail, Lock, UploadCloud, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
@@ -25,12 +25,20 @@ const credsSchema = z.object({
   password: z.string().min(6, "6 caractères minimum").max(72),
 });
 
+/** Destination après connexion : les visiteurs vont vers la bibliothèque, les autres vers leur tableau de bord. */
+function landingFor(roles: string[]): "/browse" | "/dashboard" {
+  const isVisitorOnly =
+    roles.includes("visitor") && !roles.includes("student") && !roles.includes("admin");
+  return isVisitorOnly ? "/browse" : "/dashboard";
+}
+
 function AuthPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
-  const { isAuthenticated, refresh } = useAuth();
+  const { isAuthenticated, refresh, roles, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">(search.mode ?? "login");
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<"student" | "visitor">("student");
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -41,8 +49,9 @@ function AuthPage() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate({ to: "/dashboard", replace: true });
-  }, [isAuthenticated, navigate]);
+    if (!isAuthenticated || authLoading) return;
+    navigate({ to: landingFor(roles), replace: true });
+  }, [isAuthenticated, authLoading, roles, navigate]);
 
   const update = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -73,12 +82,13 @@ function AuthPage() {
           _university: form.university.trim(),
           _faculty: form.faculty.trim(),
           _study_year: form.studyYear.trim(),
+          _role: role,
         });
 
         if (setupErr) console.error(setupErr);
         await refresh();
         toast.success("Compte créé avec succès. Bienvenue !");
-        navigate({ to: "/dashboard", replace: true });
+        navigate({ to: role === "visitor" ? "/browse" : "/dashboard", replace: true });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email: form.email,
@@ -87,7 +97,7 @@ function AuthPage() {
         if (error) throw error;
         await refresh();
         toast.success("Connexion réussie");
-        navigate({ to: "/dashboard", replace: true });
+        // La redirection selon le rôle est gérée par l'effet une fois les rôles chargés.
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Une erreur est survenue";
@@ -114,16 +124,17 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    // Ensure account setup for OAuth users, then go to dashboard.
+    // Ensure account setup for OAuth users with the selected role, then route.
     await supabase.rpc("setup_new_user", {
       _full_name: "",
       _university: "",
       _faculty: "",
       _study_year: "",
+      _role: mode === "signup" ? role : "student",
     });
 
     await refresh();
-    navigate({ to: "/dashboard", replace: true });
+    navigate({ to: mode === "signup" && role === "visitor" ? "/browse" : "/dashboard", replace: true });
   };
 
   return (
@@ -186,6 +197,41 @@ function AuthPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {mode === "signup" && (
+              <div className="space-y-2">
+                <Label>Je m'inscris en tant que</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setRole("student")}
+                    className={
+                      "flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition-colors " +
+                      (role === "student"
+                        ? "border-primary bg-primary/5 ring-1 ring-primary"
+                        : "border-border hover:bg-secondary/60")
+                    }
+                  >
+                    <UploadCloud className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-semibold">Déposant</span>
+                    <span className="text-xs text-muted-foreground">Déposer mes mémoires</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole("visitor")}
+                    className={
+                      "flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition-colors " +
+                      (role === "visitor"
+                        ? "border-primary bg-primary/5 ring-1 ring-primary"
+                        : "border-border hover:bg-secondary/60")
+                    }
+                  >
+                    <Eye className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-semibold">Visiteur</span>
+                    <span className="text-xs text-muted-foreground">Consulter la bibliothèque</span>
+                  </button>
+                </div>
+              </div>
+            )}
             {mode === "signup" && (
               <div className="space-y-2">
                 <Label htmlFor="fullName">Nom complet</Label>

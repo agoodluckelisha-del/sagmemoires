@@ -239,15 +239,26 @@ export type Database = {
         }
         Returns: boolean
       }
-      setup_new_user: {
-        Args: {
-          _faculty: string
-          _full_name: string
-          _study_year: string
-          _university: string
-        }
-        Returns: undefined
-      }
+      setup_new_user:
+        | {
+            Args: {
+              _faculty: string
+              _full_name: string
+              _study_year: string
+              _university: string
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              _faculty: string
+              _full_name: string
+              _role?: string
+              _study_year: string
+              _university: string
+            }
+            Returns: undefined
+          }
     }
     Enums: {
       app_role: "admin" | "student" | "visitor"

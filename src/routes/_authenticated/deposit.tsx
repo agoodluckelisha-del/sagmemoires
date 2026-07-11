@@ -26,7 +26,7 @@ const schema = z.object({
 });
 
 function DepositPage() {
-  const { user, profile, isPremium } = useAuth();
+  const { user, profile, isPremium, isVisitor } = useAuth();
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -155,6 +155,24 @@ function DepositPage() {
       setLoading(false);
     }
   };
+
+  if (isVisitor) {
+    return (
+      <DashboardLayout title="Déposer un mémoire">
+        <Card className="mx-auto max-w-md border-border/60 p-10 text-center">
+          <FileText className="mx-auto h-12 w-12 text-muted-foreground/50" />
+          <h2 className="mt-4 font-semibold">Réservé aux déposants</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Votre compte est un compte visiteur. Vous pouvez consulter la bibliothèque de mémoires,
+            mais pas en déposer.
+          </p>
+          <Button variant="hero" className="mt-6" onClick={() => navigate({ to: "/browse" })}>
+            Explorer la bibliothèque
+          </Button>
+        </Card>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout title="Déposer un mémoire" description="Soumettez votre travail au format PDF">
