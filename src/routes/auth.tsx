@@ -199,6 +199,41 @@ function AuthPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div className="space-y-2">
+                <Label>Je m'inscris en tant que</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setRole("student")}
+                    className={
+                      "flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition-colors " +
+                      (role === "student"
+                        ? "border-primary bg-primary/5 ring-1 ring-primary"
+                        : "border-border hover:bg-secondary/60")
+                    }
+                  >
+                    <UploadCloud className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-semibold">Déposant</span>
+                    <span className="text-xs text-muted-foreground">Déposer mes mémoires</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole("visitor")}
+                    className={
+                      "flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition-colors " +
+                      (role === "visitor"
+                        ? "border-primary bg-primary/5 ring-1 ring-primary"
+                        : "border-border hover:bg-secondary/60")
+                    }
+                  >
+                    <Eye className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-semibold">Visiteur</span>
+                    <span className="text-xs text-muted-foreground">Consulter la bibliothèque</span>
+                  </button>
+                </div>
+              </div>
+            )}
+            {mode === "signup" && (
+              <div className="space-y-2">
                 <Label htmlFor="fullName">Nom complet</Label>
                 <Input
                   id="fullName"
