@@ -36,6 +36,8 @@ interface AuthContextValue {
   loading: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isDepositor: boolean;
+  isVisitor: boolean;
   isPremium: boolean;
   refresh: () => Promise<void>;
   signOut: () => Promise<void>;
