@@ -82,12 +82,13 @@ function AuthPage() {
           _university: form.university.trim(),
           _faculty: form.faculty.trim(),
           _study_year: form.studyYear.trim(),
+          _role: role,
         });
 
         if (setupErr) console.error(setupErr);
         await refresh();
         toast.success("Compte créé avec succès. Bienvenue !");
-        navigate({ to: "/dashboard", replace: true });
+        navigate({ to: role === "visitor" ? "/browse" : "/dashboard", replace: true });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email: form.email,
@@ -96,7 +97,7 @@ function AuthPage() {
         if (error) throw error;
         await refresh();
         toast.success("Connexion réussie");
-        navigate({ to: "/dashboard", replace: true });
+        // La redirection selon le rôle est gérée par l'effet une fois les rôles chargés.
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Une erreur est survenue";
